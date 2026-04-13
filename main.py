@@ -12,7 +12,7 @@ london_tz = ZoneInfo("Europe/London")
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 REMINDERS_FILE = "reminders.json"
-landReminderRole = "LandReminder"
+reminderRole = "ReminderRole"
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 
@@ -62,7 +62,7 @@ class ReminderBot(commands.Bot):
                     channel = self.get_channel(reminder['channel_id'])
                     if channel:
                         guild = channel.guild
-                        role = discord.utils.get(guild.roles, name=landReminderRole)
+                        role = discord.utils.get(guild.roles, name=reminderRole)
 
                         if role:
                             await channel.send(f"⏰ {role.mention} **Reminder:** {reminder['text']}")
@@ -101,7 +101,7 @@ async def on_message(message):
     await bot.process_commands(message)
 
 @bot.command()
-@commands.has_role(landReminderRole)
+@commands.has_role(reminderRole)
 async def reminder(ctx):
     msg = ctx.message.content
     msg = msg.replace("!reminder ", "")
@@ -170,7 +170,7 @@ async def clearreminders(ctx):
 
 @bot.command()
 async def assign(ctx):
-    role = discord.utils.get(ctx.guild.roles, name=landReminderRole)
+    role = discord.utils.get(ctx.guild.roles, name=reminderRole)
     if role:
         await ctx.author.add_roles(role)
         await ctx.send("✅ Roles assigned!")
@@ -179,7 +179,7 @@ async def assign(ctx):
 
 @bot.command()
 async def remove(ctx):
-    role = discord.utils.get(ctx.guild.roles, name=landReminderRole)
+    role = discord.utils.get(ctx.guild.roles, name=reminderRole)
     if role:
         await ctx.author.remove_roles(role)
         await ctx.send("✅ Roles removed!")
