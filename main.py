@@ -95,8 +95,8 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if "hype" in message.content.lower():
-        await message.channel.send("Hype is gay indeed!")
+    if "test" in message.content.lower():
+        await message.channel.send("Test succesfull!")
 
     await bot.process_commands(message)
 
